@@ -1,0 +1,10 @@
+{
+  "description": "Ingest final pipeline for all logs.",
+  "processors": [
+    {
+      "remove": {
+        "field": "labels.dummy"
+      }
+    }
+  ]
+}

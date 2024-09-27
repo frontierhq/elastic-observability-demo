@@ -1,0 +1,11 @@
+{
+  "description": "Ingest pipeline for all logs.",
+  "processors": [
+    {
+      "set": {
+        "field": "ecs.version",
+        "value": "8.11.0"
+      }
+    }
+  ]
+}

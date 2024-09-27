@@ -1,0 +1,11 @@
+{
+  "description": "Ingest pipeline for nginx.access logs.",
+  "processors": [
+    {
+      "pipeline": {
+        "description": "Run common pipeline.",
+        "name": "logs-common-default"
+      }
+    }
+  ]
+}

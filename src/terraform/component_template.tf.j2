@@ -1,0 +1,23 @@
+{% for k, v in elasticsearch.component_template.items() %}
+resource "elasticstack_elasticsearch_component_template" "{{ k | replace(".", "_") | replace("-", "_") }}" {
+  name = "{{ k }}"
+
+  {% if v.template != null %}
+  template {
+    {% if v.template.alias != null %}
+    alias {
+      name = "{{ v.template.alias.name }}"
+    }
+    {% endif %}
+
+    {% if v.template.mappings != null %}
+    mappings = jsonencode({{ v.template.mappings | tojson }})
+    {% endif %}
+
+    {% if v.template.settings != null %}
+    settings = jsonencode({{ v.template.settings | tojson }})
+    {% endif %}
+  }
+  {% endif %}
+}
+{% endfor %}

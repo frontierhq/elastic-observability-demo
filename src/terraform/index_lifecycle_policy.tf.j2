@@ -1,5 +1,5 @@
 {% for k, v in elasticsearch.index_lifecycle_policy.items() %}
-resource "elasticstack_elasticsearch_index_lifecycle" "{{ k | replace(".", "_") | replace("-", "_") }}" {
+resource "elasticstack_elasticsearch_index_lifecycle" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name = "{{ k }}"
 
   {% if v.policy.phases.hot != null %}

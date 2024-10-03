@@ -1,5 +1,5 @@
 {% for k, v in elasticsearch.ingest_pipeline.items() %}
-resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | replace(".", "_") | replace("-", "_") }}" {
+resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name        = "{{ k }}"
   description = "{{ v.description }}"
 

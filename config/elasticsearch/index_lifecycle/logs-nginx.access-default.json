@@ -2,7 +2,6 @@
   "policy": {
     "phases": {
       "hot": {
-        "min_age": "0ms",
         "actions": {
           "rollover": {
             "max_age": "30d",

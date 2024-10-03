@@ -1,0 +1,12 @@
+{
+  "description": "Final ingest final pipeline for common logs.",
+  "processors": [
+    {
+      "set": {
+        "field": "event.ingested",
+        "value": "{{{_ingest.timestamp}}}",
+        "if": "ctx.event?.ingested == null"
+      }
+    }
+  ]
+}

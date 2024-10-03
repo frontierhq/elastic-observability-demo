@@ -1,5 +1,5 @@
 {
-  "description": "Ingest pipeline for all logs.",
+  "description": "Main ingest pipeline for common logs.",
   "processors": [
     {
       "set": {

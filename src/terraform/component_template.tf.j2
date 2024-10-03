@@ -1,5 +1,5 @@
 {% for k, v in elasticsearch.component_template.items() %}
-resource "elasticstack_elasticsearch_component_template" "{{ k | replace(".", "_") | replace("-", "_") }}" {
+resource "elasticstack_elasticsearch_component_template" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name = "{{ k }}"
 
   {% if v.template != null %}

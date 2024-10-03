@@ -24,7 +24,6 @@ def deploy():
         terraform=terraform,
         var={
             "ec_deployment_name": ec_deployment_name,
-            "elasticsearch_assets_path": os.path.join(os.getcwd(), "src", "elasticsearch"),
         },
         # plan_only=True,
     )

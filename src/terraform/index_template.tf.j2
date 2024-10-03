@@ -1,5 +1,5 @@
 {% for k, v in elasticsearch.index_template.items() %}
-resource "elasticstack_elasticsearch_index_template" "{{ k | replace(".", "_") | replace("-", "_") }}" {
+resource "elasticstack_elasticsearch_index_template" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name = "{{ k }}"
 
   {% if v.index_patterns != null %}

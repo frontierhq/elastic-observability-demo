@@ -8,7 +8,25 @@ resource "ec_deployment" "main" {
   elasticsearch = {
     hot = {
       autoscaling = {}
-      size        = "1g"
+      size        = "4g"
+      zone_count  = 1
+    }
+
+    warm = {
+      autoscaling = {}
+      size        = "2g"
+      zone_count  = 1
+    }
+
+    cold = {
+      autoscaling = {}
+      size        = "2g"
+      zone_count  = 1
+    }
+
+    frozen = {
+      autoscaling = {}
+      size        = "4g"
       zone_count  = 1
     }
   }

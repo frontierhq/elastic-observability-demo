@@ -1,9 +1,0 @@
-{
-  "template": {
-    "settings": {
-      "index.default_pipeline": "logs-nginx.access-default",
-      "index.final_pipeline": "logs-nginx.access-final",
-      "index.lifecycle.name": "logs-nginx.access-default"
-    }
-  }
-}

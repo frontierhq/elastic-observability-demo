@@ -1,9 +1,9 @@
 {
   "index_patterns": [
-    "logs-nginx.access-*"
+    "logs-http_logs-*"
   ],
   "data_stream": {},
   "composed_of": [
-    "logs-nginx.access-settings"
+    "logs-http_logs-settings"
   ]
 }

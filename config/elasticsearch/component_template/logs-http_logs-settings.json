@@ -1,9 +1,0 @@
-{
-  "template": {
-    "settings": {
-      "index.default_pipeline": "logs-http_logs-default",
-      "index.final_pipeline": "logs-http_logs-final",
-      "index.lifecycle.name": "logs-http_logs-default"
-    }
-  }
-}

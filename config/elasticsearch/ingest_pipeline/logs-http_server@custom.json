@@ -1,5 +1,5 @@
 {
-  "description": "Main ingest pipeline for nginx.access logs.",
+  "description": "Main ingest pipeline for http_server logs.",
   "processors": [
     {
       "pipeline": {

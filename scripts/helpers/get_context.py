@@ -7,7 +7,7 @@ def get_context(config_dir: str,):
     context = {
         "elasticsearch": {
             "component_template": {},
-            "index_lifecycle_policy": {},
+            "index_lifecycle": {},
             "index_template": {},
             "ingest_pipeline": {},
         }
@@ -20,11 +20,11 @@ def get_context(config_dir: str,):
                 context["elasticsearch"]["component_template"][Path(
                     filename).stem] = data
 
-    for (dirpath, dirnames, filenames) in os.walk(os.path.join(config_dir, "elasticsearch", "index_lifecycle_policy")):
+    for (dirpath, dirnames, filenames) in os.walk(os.path.join(config_dir, "elasticsearch", "index_lifecycle")):
         for filename in filenames:
             with open(os.path.join(dirpath, filename)) as file:
                 data = json.load(file)
-                context["elasticsearch"]["index_lifecycle_policy"][Path(
+                context["elasticsearch"]["index_lifecycle"][Path(
                     filename).stem] = data
 
     for (dirpath, dirnames, filenames) in os.walk(os.path.join(config_dir, "elasticsearch", "index_template")):

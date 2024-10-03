@@ -1,0 +1,19 @@
+locals {
+  ingest_pipelines = [
+  {% for k, v in elasticsearch.ingest_pipeline.items() %}
+    {
+      name = "{{ k }}"
+      description = "{{ v.description }}"
+      processors = [
+      {% for processor in v.processors %}
+        jsonencode({{ processor | tojson }}){% if not loop.last %},{% endif %}
+      {% endfor %}
+      ]
+    }{% if not loop.last %},{% endif %}
+  {% endfor %}
+  ]
+}
+
+# output "ingest_pipelines" {
+#   value = local.ingest_pipelines
+# }

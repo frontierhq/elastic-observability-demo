@@ -25,7 +25,6 @@ def deploy():
         var={
             "ec_deployment_name": ec_deployment_name,
         },
-        # plan_only=True,
     )
 
 

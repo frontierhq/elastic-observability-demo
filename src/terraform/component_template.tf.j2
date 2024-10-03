@@ -1,23 +1,19 @@
-{% for k, v in elasticsearch.component_template.items() %}
-resource "elasticstack_elasticsearch_component_template" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
-  name = "{{ k }}"
+resource "elasticstack_elasticsearch_component_template" "main" {
+  for_each = { for i, v in local.component_templates : v.name => v }
 
-  {% if v.template != null %}
+  name = each.value.name
+
   template {
-    {% if v.template.alias != null %}
-    alias {
-      name = "{{ v.template.alias.name }}"
-    }
-    {% endif %}
-
-    {% if v.template.mappings != null %}
-    mappings = jsonencode({{ v.template.mappings | tojson }})
-    {% endif %}
-
-    {% if v.template.settings != null %}
-    settings = jsonencode({{ v.template.settings | tojson }})
-    {% endif %}
+    mappings = try(each.value.template.mappings, null)
+    settings = try(each.value.template.settings, null)
   }
-  {% endif %}
+
+  depends_on = [
+  {% for k, v in elasticsearch.ingest_pipeline.items() %}
+    elasticstack_elasticsearch_ingest_pipeline.main["{{ k }}"],
+  {% endfor %}
+  {% for k, v in elasticsearch.index_lifecycle.items() %}
+    elasticstack_elasticsearch_index_lifecycle.main["{{ k }}"],
+  {% endfor %}
+  ]
 }
-{% endfor %}

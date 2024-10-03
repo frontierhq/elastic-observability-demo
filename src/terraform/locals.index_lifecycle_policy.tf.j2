@@ -1,0 +1,27 @@
+locals {
+  index_lifecycle = [
+  {% for k, v in elasticsearch.index_lifecycle.items() %}
+    {
+      name = "{{ k }}"
+
+      {% if v.policy.phases.hot != null %}
+      hot = {
+        {% if v.policy.phases.hot.min_age != null %}min_age = "{{ v.policy.phases.hot.min_age }}"{% endif %}
+
+        {% if v.policy.phases.hot.actions.rollover %}
+          rollover = {
+          {% for k, v in v.policy.phases.hot.actions.rollover.items() %}
+          {{ k }} = "{{ v }}"
+          {% endfor %}
+          }
+        {% endif %}
+      }
+      {% endif %}
+    }{% if not loop.last %},{% endif %}
+  {% endfor %}
+  ]
+}
+
+# output "index_lifecycle" {
+#   value = local.index_lifecycle
+# }

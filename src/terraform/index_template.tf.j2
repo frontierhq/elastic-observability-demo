@@ -1,5 +1,5 @@
 {% for k, v in elasticsearch.index_template.items() %}
-resource "elasticstack_elasticsearch_index_template" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
+resource "elasticstack_elasticsearch_index_template" "{{ k | normalise_resource_name }}" {
   name = "{{ k }}"
 
   {% if v.composed_of %}
@@ -34,7 +34,7 @@ resource "elasticstack_elasticsearch_index_template" "{{ k | replace(".", "_") |
 
   depends_on = [
   {% for k, v in elasticsearch.component_template.items() %}
-    elasticstack_elasticsearch_component_template.{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }},
+    elasticstack_elasticsearch_component_template.{{ k | normalise_resource_name }},
   {% endfor %}
   ]
 }

@@ -4,6 +4,10 @@ from jinja2 import Environment, FileSystemLoader
 from python_terraform import Terraform
 
 
+def normalise_resource_name(value):
+    return value.replace("-", "_").replace(".", "_").replace("@", "_")
+
+
 def preprocess_terraform_resources(
         working_dir: str,
         context: dict = {},
@@ -13,7 +17,10 @@ def preprocess_terraform_resources(
         loader=FileSystemLoader(
             searchpath=working_dir,
         ),
+        lstrip_blocks=True,
+        trim_blocks=True,
     )
+    env.filters["normalise_resource_name"] = normalise_resource_name
     for file in os.listdir(working_dir):
         if file.endswith(".j2"):
             template = env.get_template(file)

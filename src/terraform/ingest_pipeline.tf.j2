@@ -1,5 +1,5 @@
 {% for k, v in elasticsearch.ingest_pipeline.items() %}
-resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
+resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | normalise_resource_name }}" {
   name = "{{ k }}"
 
   {% if v.description %}
@@ -10,19 +10,21 @@ resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | replace(".", "_") 
   {% endif %}
   {% if v.processors %}
   processors = [
-    {% for processor in v.processors %}
+    {% for v in v.processors %}
     <<EOF
-    {{ processor | tojson }}
+    {{ v | tojson }}
     EOF
-    {% if not loop.last %},{% endif %}
+    {% if not loop.last %}
+    ,
+    {% endif %}
     {% endfor %}
   ]
   {% endif %}
   {% if v.on_failure %}
   on_failure = [
-    {% for processor in v.on_failure %}
+    {% for v in v.on_failure %}
     <<EOF
-    {{ processor | tojson }}
+    {{ v | tojson }}
     EOF
     {% if not loop.last %},{% endif %}
     {% endfor %}

@@ -2,18 +2,25 @@
 resource "elasticstack_elasticsearch_component_template" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name = "{{ k }}"
 
-  {% if v.template != null %}
+  {% if v.metadata %}
+  metadata = {{ v.metadata | tojson }}
+  {% endif %}
+  {% if v.version %}
+  version = {{ v.version | tojson }}
+  {% endif %}
+  {% if v.template %}
   template {
-    {% if v.template.alias != null %}
+    {% if v.template.alias %}
     alias {
-      name = "{{ v.template.alias.name }}"
+      {% for k, v in v.template.alias.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
     }
     {% endif %}
-    {% if v.template.mappings != null %}
+    {% if v.template.mappings %}
     mappings = jsonencode({{ v.template.mappings | tojson }})
     {% endif %}
-
-    {% if v.template.settings != null %}
+    {% if v.template.settings %}
     settings = jsonencode({{ v.template.settings | tojson }})
     {% endif %}
   }

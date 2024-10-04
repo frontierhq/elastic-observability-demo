@@ -2,133 +2,246 @@
 resource "elasticstack_elasticsearch_index_lifecycle" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name = "{{ k }}"
 
-  {% if v.policy.phases.hot != null %}
+  {% if v.policy.phases.hot %}
+  {% set phase = v.policy.phases.hot %}
   hot {
-    {% if v.policy.phases.hot.min_age != null %}min_age = "{{ v.policy.phases.hot.min_age }}"{% endif %}
-    {% if v.policy.phases.hot.actions.rollover %}
-      rollover {
-      {% for k, v in v.policy.phases.hot.actions.rollover.items() %}
-      {{ k }} = "{{ v }}"
+    {% if phase.min_age %}
+    min_age = {{ phase.min_age | tojson }}
+    {% endif %}
+    {% if phase.actions.downsample %}
+    downsample {
+      {% for k, v in phase.actions.downsample.items() %}
+      {{ k }} = {{ v | tojson }}
       {% endfor %}
-      }
+    }
+    {% endif %}
+    {% if phase.actions.forcemerge %}
+    forcemerge {
+      {% for k, v in phase.actions.forcemerge.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.readonly %}
+    readonly {
+      {% for k, v in phase.actions.readonly.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.rollover %}
+    rollover {
+      {% for k, v in phase.actions.rollover.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.searchable_snapshot %}
+    searchable_snapshot {
+      {% for k, v in phase.actions.searchable_snapshot.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.set_priority %}
+    set_priority {
+      {% for k, v in phase.actions.set_priority.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.shrink %}
+    shrink {
+      {% for k, v in phase.actions.shrink.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.unfollow %}
+    unfollow {
+      {% for k, v in phase.actions.unfollow.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
     {% endif %}
   }
   {% endif %}
 
-  # dynamic "hot" {
-  #   for_each = try(each.value.hot, null) != null ? [each.value.hot] : []
+  {% if v.policy.phases.warm %}
+  {% set phase = v.policy.phases.warm %}
+  warm {
+    {% if phase.min_age %}
+    min_age = {{ phase.min_age | tojson }}
+    {% endif %}
+    {% if phase.actions.allocate %}
+    allocate {
+      {% for k, v in phase.actions.allocate.items() %}
+      {% if k == "include" or k == "exclude" or k == "require" %}
+      {{ k }} = jsonencode({{ v | tojson }})
+      {% else %}
+      {{ k }} = {{ v | tojson }}
+      {% endif %}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.downsample %}
+    downsample {
+      {% for k, v in phase.actions.downsample.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.forcemerge %}
+    forcemerge {
+      {% for k, v in phase.actions.forcemerge.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.migrate %}
+    migrate {
+      {% for k, v in phase.actions.migrate.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.readonly %}
+    readonly {
+      {% for k, v in phase.actions.readonly.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.set_priority %}
+    set_priority {
+      {% for k, v in phase.actions.set_priority.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.shrink %}
+    shrink {
+      {% for k, v in phase.actions.shrink.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.unfollow %}
+    unfollow {
+      {% for k, v in phase.actions.unfollow.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+  }
+  {% endif %}
 
-  #   content {
-  #     min_age = try(hot.value.min_age, null)
+  {% if v.policy.phases.cold %}
+  {% set phase = v.policy.phases.cold %}
+  cold {
+    {% if phase.min_age %}
+    min_age = {{ phase.min_age | tojson }}
+    {% endif %}
+    {% if phase.actions.allocate %}
+    allocate {
+      {% for k, v in phase.actions.allocate.items() %}
+      {% if k == "include" or k == "exclude" or k == "require" %}
+      {{ k }} = jsonencode({{ v | tojson }})
+      {% else %}
+      {{ k }} = {{ v | tojson }}
+      {% endif %}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.downsample %}
+    downsample {
+      {% for k, v in phase.actions.downsample.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.freeze %}
+    freeze {
+      {% for k, v in phase.actions.freeze.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.migrate %}
+    migrate {
+      {% for k, v in phase.actions.migrate.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.readonly %}
+    readonly {
+      {% for k, v in phase.actions.readonly.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.searchable_snapshot %}
+    searchable_snapshot {
+      {% for k, v in phase.actions.searchable_snapshot.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.set_priority %}
+    set_priority {
+      {% for k, v in phase.actions.set_priority.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.unfollow %}
+    unfollow {
+      {% for k, v in phase.actions.unfollow.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+  }
+  {% endif %}
 
-  #     dynamic "rollover" {
-  #       for_each = try(hot.value.rollover, null) != null ? [hot.value.rollover] : []
+  {% if v.policy.phases.frozen %}
+  {% set phase = v.policy.phases.frozen %}
+  frozen {
+    {% if phase.min_age %}
+    min_age = {{ phase.min_age | tojson }}
+    {% endif %}
+    {% if phase.actions.searchable_snapshot %}
+    searchable_snapshot {
+      {% for k, v in phase.actions.searchable_snapshot.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+  }
+  {% endif %}
 
-  #       content {
-  #         max_age                = try(rollover.value.max_age, null)
-  #         max_primary_shard_size = try(rollover.value.max_primary_shard_size, null)
-  #       }
-  #     }
-
-  #     dynamic "set_priority" {
-  #       for_each = try(hot.value.set_priority, null) != null ? [hot.value.set_priority] : []
-
-  #       content {
-  #         priority = try(set_priority.value.priority, null)
-  #       }
-  #     }
-  #   }
-  # }
-
-  # dynamic "warm" {
-  #   for_each = try(each.value.warm, null) != null ? [each.value.warm] : []
-
-  #   content {
-  #     min_age = try(warm.value.min_age, null)
-
-  #     dynamic "forcemerge" {
-  #       for_each = try(warm.value.forcemerge, null) != null ? [warm.value.forcemerge] : []
-
-  #       content {
-  #         max_num_segments = try(forcemerge.value.max_num_segments, null)
-  #       }
-  #     }
-
-  #     dynamic "set_priority" {
-  #       for_each = try(warm.value.set_priority, null) != null ? [warm.value.set_priority] : []
-
-  #       content {
-  #         priority = try(set_priority.value.priority, null)
-  #       }
-  #     }
-  #   }
-  # }
-
-  # dynamic "cold" {
-  #   for_each = try(each.value.cold, null) != null ? [each.value.cold] : []
-
-  #   content {
-  #     min_age = try(cold.value.min_age, null)
-
-  #     dynamic "allocate" {
-  #       for_each = try(cold.value.allocate, null) != null ? [cold.value.allocate] : []
-
-  #       content {
-  #         number_of_replicas    = try(allocate.value.number_of_replicas, null)
-  #         total_shards_per_node = try(allocate.value.total_shards_per_node, null)
-  #       }
-  #     }
-
-  #     dynamic "searchable_snapshot" {
-  #       for_each = try(cold.value.searchable_snapshot, null) != null ? [cold.value.searchable_snapshot] : []
-
-  #       content {
-  #         force_merge_index   = try(searchable_snapshot.value.force_merge_index, null)
-  #         snapshot_repository = try(searchable_snapshot.value.snapshot_repository, null)
-  #       }
-  #     }
-
-  #     dynamic "set_priority" {
-  #       for_each = try(cold.value.set_priority, null) != null ? [cold.value.set_priority] : []
-
-  #       content {
-  #         priority = try(set_priority.value.priority, null)
-  #       }
-  #     }
-  #   }
-  # }
-
-  # dynamic "frozen" {
-  #   for_each = try(each.value.frozen, null) != null ? [each.value.frozen] : []
-
-  #   content {
-  #     min_age = try(frozen.value.min_age, null)
-
-  #     dynamic "searchable_snapshot" {
-  #       for_each = try(frozen.value.searchable_snapshot, null) != null ? [frozen.value.searchable_snapshot] : []
-
-  #       content {
-  #         force_merge_index   = try(searchable_snapshot.value.force_merge_index, null)
-  #         snapshot_repository = try(searchable_snapshot.value.snapshot_repository, null)
-  #       }
-  #     }
-  #   }
-  # }
-
-  # dynamic "delete" {
-  #   for_each = try(each.value.delete, null) != null ? [each.value.delete] : []
-
-  #   content {
-  #     min_age = try(delete.value.min_age, null)
-
-  #     dynamic "delete" {
-  #       for_each = try(delete.value.delete, null) != null ? [delete.value.delete] : []
-
-  #       content {
-  #         delete_searchable_snapshot = try(delete.value.delete_searchable_snapshot, null)
-  #       }
-  #     }
-  #   }
-  # }
+  {% if v.policy.phases.delete %}
+  {% set phase = v.policy.phases.delete %}
+  delete {
+    {% if phase.min_age %}
+    min_age = {{ phase.min_age | tojson }}
+    {% endif %}
+    {% if phase.actions.delete %}
+    delete {
+      {% for k, v in phase.actions.delete.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if phase.actions.wait_for_snapshot %}
+    wait_for_snapshot {
+      {% for k, v in phase.actions.wait_for_snapshot.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+  }
+  {% endif %}
 }
 {% endfor %}

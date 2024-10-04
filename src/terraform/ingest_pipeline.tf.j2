@@ -1,8 +1,14 @@
 {% for k, v in elasticsearch.ingest_pipeline.items() %}
 resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
-  name        = "{{ k }}"
-  description = "{{ v.description }}"
+  name = "{{ k }}"
 
+  {% if v.description %}
+  description = {{ v.description | tojson }}
+  {% endif %}
+  {% if v.metadata %}
+  metadata = {{ v.metadata | tojson }}
+  {% endif %}
+  {% if v.processors %}
   processors = [
     {% for processor in v.processors %}
     <<EOF
@@ -11,5 +17,16 @@ resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | replace(".", "_") 
     {% if not loop.last %},{% endif %}
     {% endfor %}
   ]
+  {% endif %}
+  {% if v.on_failure %}
+  on_failure = [
+    {% for processor in v.on_failure %}
+    <<EOF
+    {{ processor | tojson }}
+    EOF
+    {% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+  {% endif %}
 }
 {% endfor %}

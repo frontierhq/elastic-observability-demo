@@ -2,18 +2,33 @@
 resource "elasticstack_elasticsearch_index_template" "{{ k | replace(".", "_") | replace("-", "_") | replace("@", "_") }}" {
   name = "{{ k }}"
 
-  {% if v.index_patterns != null %}
-  index_patterns = {{ v.index_patterns | tojson }}
-  {% endif %}
-
-  {% if v.composed_of != null %}
+  {% if v.composed_of %}
   composed_of = {{ v.composed_of | tojson }}
   {% endif %}
-
-  {% if v.data_stream != null %}
+  {% if v.index_patterns %}
+  index_patterns = {{ v.index_patterns | tojson }}
+  {% endif %}
+  {% if v.metadata %}
+  metadata = {{ v.metadata | tojson }}
+  {% endif %}
+  {% if v.priority %}
+  priority = {{ v.priority | tojson }}
+  {% endif %}
+  {% if v.version %}
+  version = {{ v.version | tojson }}
+  {% endif %}
+  {% if v.data_stream %}
   data_stream {
-    {% if v.data_stream.allow_custom_routing != null %}allow_custom_routing = {{ v.data_stream.allow_custom_routing }}{% endif %}
-    {% if v.data_stream.hidden != null %}hidden = {{ v.data_stream.hidden }}{% endif %}
+    {% for k, v in v.data_stream.items() %}
+    {{ k }} = {{ v | tojson }}
+    {% endfor %}
+  }
+  {% endif %}
+  {% if v.template %}
+  template {
+    {% for k, v in v.template.items() %}
+    {{ k }} = {{ v | tojson }}
+    {% endfor %}
   }
   {% endif %}
 

@@ -9,7 +9,9 @@ __pycache__
 # terraform
 .terraform
 component_template.tf
+index_lifecycle.tf
 index_template.tf
+ingest_pipeline.tf
 locals.*.tf
 
 # other

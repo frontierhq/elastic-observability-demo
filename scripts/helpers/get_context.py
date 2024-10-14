@@ -10,6 +10,7 @@ def get_context(config_dir: str,):
             "index_lifecycle": {},
             "index_template": {},
             "ingest_pipeline": {},
+            "security_role_mapping": {},
         }
     }
 
@@ -39,6 +40,13 @@ def get_context(config_dir: str,):
             with open(os.path.join(dirpath, filename)) as file:
                 data = json.load(file)
                 context["elasticsearch"]["ingest_pipeline"][Path(
+                    filename).stem] = data
+
+    for (dirpath, dirnames, filenames) in os.walk(os.path.join(config_dir, "elasticsearch", "security_role_mapping")):
+        for filename in filenames:
+            with open(os.path.join(dirpath, filename)) as file:
+                data = json.load(file)
+                context["elasticsearch"]["security_role_mapping"][Path(
                     filename).stem] = data
 
     return context

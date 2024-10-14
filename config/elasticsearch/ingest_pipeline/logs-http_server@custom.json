@@ -4,13 +4,13 @@
     {
       "pipeline": {
         "description": "Run common main pipeline.",
-        "name": "common-main"
+        "name": "common-main@custom"
       }
     },
     {
       "pipeline": {
         "description": "Run common final pipeline.",
-        "name": "common-final"
+        "name": "common-final@custom"
       }
     }
   ]

@@ -3,16 +3,23 @@ variable "ec_deployment_name" {
 }
 
 variable "ec_deployment_template_id" {
-  type    = string
-  default = "aws-storage-optimized"
+  type = string
 }
 
 variable "ec_deployment_region" {
-  type    = string
-  default = "aws-eu-west-2"
+  type = string
 }
 
 variable "ec_deployment_version" {
+  type = string
+}
+
+variable "elasticsearch_settings_yaml_file_path" {
   type    = string
-  default = "8.15.1"
+  default = null
+}
+
+variable "kibana_settings_yaml_file_path" {
+  type    = string
+  default = null
 }

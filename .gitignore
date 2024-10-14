@@ -13,5 +13,6 @@ index_lifecycle.tf
 index_template.tf
 ingest_pipeline.tf
 locals.*.tf
+security_role_mapping.tf
 
 # other

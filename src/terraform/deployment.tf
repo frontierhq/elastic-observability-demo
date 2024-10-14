@@ -29,10 +29,18 @@ resource "ec_deployment" "main" {
       size        = "4g"
       zone_count  = 1
     }
+
+    config = {
+      user_settings_yaml = var.elasticsearch_settings_yaml_file_path != null ? file(var.elasticsearch_settings_yaml_file_path) : null
+    }
   }
 
   kibana = {
     size       = "1g"
     zone_count = 1
+
+    config = {
+      user_settings_yaml = var.kibana_settings_yaml_file_path != null ? file(var.kibana_settings_yaml_file_path) : null
+    }
   }
 }

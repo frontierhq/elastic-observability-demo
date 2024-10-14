@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "roles": [
+    "superuser"
+  ],
+  "rules": {
+    "all": [
+      {
+        "field": {
+          "realm.name": "saml1"
+        }
+      }
+    ]
+  }
+}

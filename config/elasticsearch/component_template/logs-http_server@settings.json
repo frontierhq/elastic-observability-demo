@@ -1,8 +1,0 @@
-{
-  "template": {
-    "settings": {
-      "index.default_pipeline": "logs-http_server@custom",
-      "index.lifecycle.name": "logs-http_server@default"
-    }
-  }
-}

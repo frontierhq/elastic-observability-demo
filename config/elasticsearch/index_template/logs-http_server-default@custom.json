@@ -4,6 +4,6 @@
   ],
   "data_stream": {},
   "composed_of": [
-    "logs-http_server@settings"
+    "logs-http_server-settings@custom"
   ]
 }

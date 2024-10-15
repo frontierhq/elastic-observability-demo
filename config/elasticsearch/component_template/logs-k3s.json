@@ -3,9 +3,9 @@
     "settings": {
       "index": {
         "lifecycle": {
-          "name": "logs-k3s@custom"
+          "name": "logs-k3s"
         },
-        "final_pipeline": "k3s-pipeline-final@custom"
+        "final_pipeline": "k3s-pipeline-final"
       }
     }
   }

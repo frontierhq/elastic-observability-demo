@@ -19,14 +19,14 @@
       "append": {
         "field": "tags",
         "value": [
-          "k3s-pipeline-final@custom"
+          "k3s-pipeline-final"
         ]
       }
     },
     {
       "pipeline": {
         "description": "Run common final pipeline.",
-        "name": "common-pipeline-final@custom"
+        "name": "common-pipeline-final"
       }
     }
   ]

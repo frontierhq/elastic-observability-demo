@@ -5,7 +5,7 @@
       "append": {
         "field": "tags",
         "value": [
-          "common-pipeline-final@custom"
+          "common-pipeline-final"
         ]
       }
     },

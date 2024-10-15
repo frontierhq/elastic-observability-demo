@@ -3,7 +3,7 @@
     "logs-k3s-*"
   ],
   "composed_of": [
-    "filebeat@custom",
+    "filebeat-8.15.2@custom",
     "logs-k3s@custom"
   ],
   "data_stream": {

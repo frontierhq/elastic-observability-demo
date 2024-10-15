@@ -3,10 +3,12 @@
     "logs-k3s-*"
   ],
   "composed_of": [
+    "filebeat@custom",
     "logs-k3s@custom"
   ],
   "data_stream": {
     "hidden": false,
     "allow_custom_routing": false
-  }
+  },
+  "priority": 100
 }

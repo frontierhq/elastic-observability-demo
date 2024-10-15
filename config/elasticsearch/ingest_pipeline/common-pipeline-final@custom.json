@@ -11,9 +11,9 @@
     },
     {
       "set": {
+        "copy_from": "event.dataset",
         "field": "data_stream.dataset",
-        "if": "ctx.data_stream?.dataset == null",
-        "copy_from": "event.dataset"
+        "if": "ctx.data_stream?.dataset == null"
       }
     },
     {

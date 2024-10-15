@@ -1,21 +1,5 @@
 {
   "description": "Final ingest pipeline for k3s logs.",
-  "processors": [
-    {
-      "append": {
-        "field": "tags",
-        "value": [
-          "k3s-pipeline-final@custom"
-        ]
-      }
-    },
-    {
-      "pipeline": {
-        "name": "common-pipeline-final@custom",
-        "description": "Run common final pipeline."
-      }
-    }
-  ],
   "on_failure": [
     {
       "append": {
@@ -27,6 +11,22 @@
       "set": {
         "field": "error.message",
         "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ],
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": [
+          "k3s-pipeline-final@custom"
+        ]
+      }
+    },
+    {
+      "pipeline": {
+        "description": "Run common final pipeline.",
+        "name": "common-pipeline-final@custom"
       }
     }
   ]

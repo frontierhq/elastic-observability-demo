@@ -1,0 +1,12 @@
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "logs-k3s@custom"
+        },
+        "final_pipeline": "k3s-pipeline-final@custom"
+      }
+    }
+  }
+}

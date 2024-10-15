@@ -1,0 +1,27 @@
+{
+  "description": "Final ingest pipeline for all logs.",
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": [
+          "common-pipeline-final@custom"
+        ]
+      }
+    },
+    {
+      "set": {
+        "field": "data_stream.dataset",
+        "if": "ctx.data_stream?.dataset == null",
+        "copy_from": "event.dataset"
+      }
+    },
+    {
+      "set": {
+        "field": "event.ingested",
+        "if": "ctx.event?.ingested == null",
+        "value": "{{_ingest.timestamp}}"
+      }
+    }
+  ]
+}

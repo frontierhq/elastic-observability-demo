@@ -16,6 +16,9 @@ install:
 install_ci:
 	pipenv sync
 
+pull_config:
+	pipenv run python scripts/pull_config.py
+
 test: test.lint test.script
 
 test.lint: test.lint.python test.lint.yaml

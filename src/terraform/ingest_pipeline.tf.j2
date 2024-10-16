@@ -5,9 +5,6 @@ resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | normalise_resource
   {% if v.description %}
   description = {{ v.description | tojson }}
   {% endif %}
-  {% if v.metadata %}
-  metadata = {{ v.metadata | tojson }}
-  {% endif %}
   {% if v.processors %}
   processors = [
     {% for v in v.processors %}
@@ -29,6 +26,10 @@ resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | normalise_resource
     {% if not loop.last %},{% endif %}
     {% endfor %}
   ]
+  {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
   {% endif %}
 }
 {% endfor %}

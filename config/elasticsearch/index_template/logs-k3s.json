@@ -5,7 +5,10 @@
   "composed_of": [
     "logs-k3s@mappings",
     "logs-k3s@settings",
-    "ecs@mappings"
+    "ecs@mappings",
+    "ecs-data_stream@8.11.0",
+    "ecs-ecs@8.11.0",
+    "ecs-error@8.11.0"
   ],
   "priority": 200,
   "data_stream": {

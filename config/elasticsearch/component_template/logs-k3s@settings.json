@@ -5,7 +5,15 @@
         "lifecycle": {
           "name": "logs-k3s"
         },
-        "default_pipeline": "logs-k3s@default-pipeline"
+        "mode": "standard",
+        "codec": "best_compression",
+        "default_pipeline": "logs-k3s@default-pipeline",
+        "mapping": {
+          "total_fields": {
+            "ignore_dynamic_beyond_limit": "true"
+          },
+          "ignore_malformed": "true"
+        }
       }
     }
   }

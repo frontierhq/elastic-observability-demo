@@ -19,6 +19,13 @@
     },
     {
       "set": {
+        "field": "ecs.version",
+        "if": "ctx.ecs?.version == null",
+        "value": "8.11.0"
+      }
+    },
+    {
+      "set": {
         "copy_from": "message",
         "field": "event.original",
         "if": "ctx.event?.original == null"

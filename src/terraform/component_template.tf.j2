@@ -2,9 +2,6 @@
 resource "elasticstack_elasticsearch_component_template" "{{ k | normalise_resource_name }}" {
   name = "{{ k }}"
 
-  {% if v.metadata %}
-  metadata = {{ v.metadata | tojson }}
-  {% endif %}
   {% if v.version %}
   version = {{ v.version | tojson }}
   {% endif %}
@@ -24,6 +21,10 @@ resource "elasticstack_elasticsearch_component_template" "{{ k | normalise_resou
     settings = jsonencode({{ v.template.settings | tojson }})
     {% endif %}
   }
+  {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
   {% endif %}
 
   depends_on = [

@@ -8,9 +8,6 @@ resource "elasticstack_elasticsearch_index_template" "{{ k | normalise_resource_
   {% if v.index_patterns %}
   index_patterns = {{ v.index_patterns | tojson }}
   {% endif %}
-  {% if v.metadata %}
-  metadata = {{ v.metadata | tojson }}
-  {% endif %}
   {% if v.priority %}
   priority = {{ v.priority | tojson }}
   {% endif %}
@@ -30,6 +27,10 @@ resource "elasticstack_elasticsearch_index_template" "{{ k | normalise_resource_
     {{ k }} = {{ v | tojson }}
     {% endfor %}
   }
+  {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
   {% endif %}
 
   depends_on = [

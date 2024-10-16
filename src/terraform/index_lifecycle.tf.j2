@@ -243,5 +243,9 @@ resource "elasticstack_elasticsearch_index_lifecycle" "{{ k | normalise_resource
     {% endif %}
   }
   {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
+  {% endif %}
 }
 {% endfor %}

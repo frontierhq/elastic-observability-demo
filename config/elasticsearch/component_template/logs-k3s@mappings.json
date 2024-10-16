@@ -65,23 +65,7 @@
             "match_mapping_type": "string"
           }
         }
-      ],
-      "date_detection": false,
-      "properties": {
-        "@timestamp": {
-          "type": "date"
-        },
-        "data_stream.namespace": {
-          "type": "constant_keyword"
-        },
-        "data_stream.dataset": {
-          "type": "constant_keyword"
-        },
-        "data_stream.type": {
-          "type": "constant_keyword",
-          "value": "logs"
-        }
-      }
+      ]
     }
   }
 }

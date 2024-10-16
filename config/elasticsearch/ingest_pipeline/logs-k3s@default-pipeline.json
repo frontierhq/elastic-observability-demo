@@ -1,12 +1,6 @@
 {
-  "description": "Final ingest pipeline for k3s logs.",
+  "description": "Default ingest pipeline for k3s logs.",
   "on_failure": [
-    {
-      "append": {
-        "field": "tags",
-        "value": "error-k3s-pipeline-final"
-      }
-    },
     {
       "set": {
         "field": "error.message",
@@ -19,14 +13,14 @@
       "append": {
         "field": "tags",
         "value": [
-          "k3s-pipeline-final"
+          "logs-k3s@default-pipeline"
         ]
       }
     },
     {
       "pipeline": {
-        "description": "Run common final pipeline.",
-        "name": "common-pipeline-final"
+        "description": "Run logs common default pipeline.",
+        "name": "logs-common@default-pipeline"
       }
     }
   ]

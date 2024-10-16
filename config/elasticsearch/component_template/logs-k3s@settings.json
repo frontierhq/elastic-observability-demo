@@ -5,7 +5,7 @@
         "lifecycle": {
           "name": "logs-k3s"
         },
-        "final_pipeline": "k3s-pipeline-final"
+        "default_pipeline": "logs-k3s@default-pipeline"
       }
     }
   }

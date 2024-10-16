@@ -1,0 +1,87 @@
+{
+  "template": {
+    "mappings": {
+      "dynamic_templates": [
+        {
+          "labels": {
+            "path_match": "labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        },
+        {
+          "container.labels": {
+            "path_match": "container.labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        },
+        {
+          "docker.container.labels": {
+            "path_match": "docker.container.labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        },
+        {
+          "kubernetes.labels.*": {
+            "path_match": "kubernetes.labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "*"
+          }
+        },
+        {
+          "kubernetes.annotations.*": {
+            "path_match": "kubernetes.annotations.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "*"
+          }
+        },
+        {
+          "kubernetes.selectors.*": {
+            "path_match": "kubernetes.selectors.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "*"
+          }
+        },
+        {
+          "docker.attrs": {
+            "path_match": "docker.attrs.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        }
+      ],
+      "date_detection": false,
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "data_stream.namespace": {
+          "type": "constant_keyword"
+        },
+        "data_stream.dataset": {
+          "type": "constant_keyword"
+        },
+        "data_stream.type": {
+          "type": "constant_keyword",
+          "value": "logs"
+        }
+      }
+    }
+  }
+}

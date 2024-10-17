@@ -1,3 +1,4 @@
+{% if elasticsearch.cluster_settings.persistent or elasticsearch.cluster_settings.transient %}
 resource "elasticstack_elasticsearch_cluster_settings" "main" {
   {% if elasticsearch.cluster_settings.persistent %}
   persistent {
@@ -29,3 +30,4 @@ resource "elasticstack_elasticsearch_cluster_settings" "main" {
   }
   {% endif %}
 }
+{% endif %}

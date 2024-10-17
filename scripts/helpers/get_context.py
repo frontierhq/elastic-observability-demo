@@ -28,10 +28,12 @@ def get_context(config_dir: str,):
     if os.path.exists(os.path.join(elasticsearch_config_dir, "cluster_settings.json")):
         with open(os.path.join(elasticsearch_config_dir, "cluster_settings.json")) as file:
             data = json.load(file)
-            persistent_flat_data = flatten_json(data["persistent"])
-            transient_flat_data = flatten_json(data["transient"])
-            context["elasticsearch"]["cluster_settings"]["persistent"] = persistent_flat_data
-            context["elasticsearch"]["cluster_settings"]["transient"] = transient_flat_data
+            if "persistent" in data:
+                persistent_flat_data = flatten_json(data["persistent"])
+                context["elasticsearch"]["cluster_settings"]["persistent"] = persistent_flat_data
+            if "transient" in data:
+                transient_flat_data = flatten_json(data["transient"])
+                context["elasticsearch"]["cluster_settings"]["transient"] = transient_flat_data
 
     for (dirpath, _, filenames) in os.walk(os.path.join(elasticsearch_config_dir, "component_template")):
         for filename in filenames:

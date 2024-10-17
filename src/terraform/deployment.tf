@@ -9,25 +9,25 @@ resource "ec_deployment" "main" {
     hot = {
       autoscaling = {}
       size        = "4g"
-      zone_count  = 1
+      zone_count  = 2
     }
 
     warm = {
       autoscaling = {}
       size        = "2g"
-      zone_count  = 1
+      zone_count  = 2
     }
 
     cold = {
       autoscaling = {}
       size        = "2g"
-      zone_count  = 1
+      zone_count  = 2
     }
 
     frozen = {
       autoscaling = {}
       size        = "4g"
-      zone_count  = 1
+      zone_count  = 2
     }
 
     config = {

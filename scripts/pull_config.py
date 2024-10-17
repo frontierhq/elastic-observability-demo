@@ -2,6 +2,8 @@ import json
 import os
 from elasticsearch import Elasticsearch
 from helpers.init_terraform import init_terraform
+from pathlib import Path
+from typing import Callable
 
 
 def connect():
@@ -19,13 +21,18 @@ def connect():
     )
 
 
-def pull_component_templates(client: Elasticsearch, config_root_dir: str):
-    result = client.cluster.get_component_template()
+def delete_keys(obj: dict, keys: list):
+    for key in keys:
+        del obj[key]
+
+
+def pull_type_1(fetch: Callable, config_root_dir: str, type: str, process: Callable = None):
+    result = fetch()
 
     config_dir = os.path.join(
         config_root_dir,
         "elasticsearch",
-        "component_template",
+        type,
     )
 
     ignores = []
@@ -33,22 +40,38 @@ def pull_component_templates(client: Elasticsearch, config_root_dir: str):
         with open(os.path.join(config_dir, ".ignore")) as file:
             ignores = file.read().splitlines()
 
-    for v in result["component_templates"]:
+    for v in result[f"{type}s"]:
         if v["name"] in ignores:
+            # print(f"Ignoring {type} {v['name']}")
             continue
-        file_path = os.path.join(config_dir, f"{v['name']}.json")
-        with open(file_path, "w") as file:
-            file.write(json.dumps(v["component_template"], indent=2))
-            file.write("\n")
+
+        name = v['name']
+        file_path = Path(os.path.join(config_dir, f"{name}.json"))
+
+        existing = {}
+        if file_path.exists():
+            with file_path.open("r") as file:
+                existing = json.load(file)
+
+        if process:
+            process(v[type])
+
+        if v[type].items() != existing.items():
+            with file_path.open("w") as file:
+                print(f"Writing {type}/{name} to {file_path}")
+                file.write(json.dumps(v[type], indent=2))
+                file.write("\n")
+        else:
+            print(f"Skipping {type}/{name}")
 
 
-def pull_index_lifecycle(client: Elasticsearch, config_root_dir: str):
-    result = client.ilm.get_lifecycle()
+def pull_type_2(fetch: Callable, config_root_dir: str, type: str, process: Callable = None):
+    result = fetch()
 
     config_dir = os.path.join(
         config_root_dir,
         "elasticsearch",
-        "index_lifecycle",
+        type,
     )
 
     ignores = []
@@ -58,82 +81,27 @@ def pull_index_lifecycle(client: Elasticsearch, config_root_dir: str):
 
     for k in result:
         if k in ignores:
+            # print(f"Ignoring {type} {v['name']}")
             continue
-        file_path = os.path.join(config_dir, f"{k}.json")
-        del result[k]["in_use_by"]
-        del result[k]["modified_date"]
-        with open(file_path, "w") as file:
-            file.write(json.dumps(result[k], indent=2))
-            file.write("\n")
 
+        name = k
+        file_path = Path(os.path.join(config_dir, f"{name}.json"))
 
-def pull_index_template(client: Elasticsearch, config_root_dir: str):
-    result = client.indices.get_index_template()
+        existing = {}
+        if file_path.exists():
+            with file_path.open("r") as file:
+                existing = json.load(file)
 
-    config_dir = os.path.join(
-        config_root_dir,
-        "elasticsearch",
-        "index_template",
-    )
+        if process:
+            process(result[k])
 
-    ignores = []
-    if os.path.exists(os.path.join(config_dir, ".ignore")):
-        with open(os.path.join(config_dir, ".ignore")) as file:
-            ignores = file.read().splitlines()
-
-    for v in result["index_templates"]:
-        if v["name"] in ignores:
-            continue
-        file_path = os.path.join(config_dir, f"{v['name']}.json")
-        with open(file_path, "w") as file:
-            file.write(json.dumps(v["index_template"], indent=2))
-            file.write("\n")
-
-
-def pull_ingest_pipeline(client: Elasticsearch, config_root_dir: str):
-    result = client.ingest.get_pipeline()
-
-    config_dir = os.path.join(
-        config_root_dir,
-        "elasticsearch",
-        "ingest_pipeline",
-    )
-
-    ignores = []
-    if os.path.exists(os.path.join(config_dir, ".ignore")):
-        with open(os.path.join(config_dir, ".ignore")) as file:
-            ignores = file.read().splitlines()
-
-    for k in result:
-        if k in ignores:
-            continue
-        file_path = os.path.join(config_dir, f"{k}.json")
-        with open(file_path, "w") as file:
-            file.write(json.dumps(result[k], indent=2))
-            file.write("\n")
-
-
-def pull_role_mapping(client: Elasticsearch, config_root_dir: str):
-    result = client.security.get_role_mapping()
-
-    config_dir = os.path.join(
-        config_root_dir,
-        "elasticsearch",
-        "security_role_mapping",
-    )
-
-    ignores = []
-    if os.path.exists(os.path.join(config_dir, ".ignore")):
-        with open(os.path.join(config_dir, ".ignore")) as file:
-            ignores = file.read().splitlines()
-
-    for k in result:
-        if k in ignores:
-            continue
-        file_path = os.path.join(config_dir, f"{k}.json")
-        with open(file_path, "w") as file:
-            file.write(json.dumps(result[k], indent=2))
-            file.write("\n")
+        if result[k].items() != existing.items():
+            with file_path.open("w") as file:
+                print(f"Writing {type}/{name} to {file_path}")
+                file.write(json.dumps(result[k], indent=2))
+                file.write("\n")
+        else:
+            print(f"Skipping {type}/{name}")
 
 
 def pull_config():
@@ -141,11 +109,32 @@ def pull_config():
 
     client = connect()
 
-    pull_component_templates(client, config_dir)
-    pull_index_lifecycle(client, config_dir)
-    pull_index_template(client, config_dir)
-    pull_ingest_pipeline(client, config_dir)
-    pull_role_mapping(client, config_dir)
+    pull_type_1(
+        lambda: client.cluster.get_component_template(),
+        config_dir,
+        "component_template",
+    )
+    pull_type_2(
+        lambda: client.ilm.get_lifecycle(),
+        config_dir,
+        "index_lifecycle",
+        lambda x: delete_keys(x, ["in_use_by", "modified_date"]),
+    )
+    pull_type_1(
+        lambda: client.indices.get_index_template(),
+        config_dir,
+        "index_template",
+    )
+    pull_type_2(
+        lambda: client.ingest.get_pipeline(),
+        config_dir,
+        "ingest_pipeline",
+    )
+    pull_type_2(
+        lambda: client.security.get_role_mapping(),
+        config_dir,
+        "security_role_mapping",
+    )
 
 
 if __name__ == "__main__":

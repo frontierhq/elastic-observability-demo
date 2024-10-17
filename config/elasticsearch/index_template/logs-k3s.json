@@ -10,9 +10,9 @@
     "ecs-ecs@8.11.0",
     "ecs-error@8.11.0"
   ],
-  "priority": 200,
   "data_stream": {
     "hidden": false,
     "allow_custom_routing": false
-  }
+  },
+  "priority": 200
 }

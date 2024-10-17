@@ -19,7 +19,6 @@
 90-days@lifecycle
 ilm-history-ilm-policy
 kibana-reporting
-logs-k3s
 logs
 logs@lifecycle
 metrics

@@ -1,13 +1,5 @@
 {
   "description": "Default ingest pipeline for k3s logs.",
-  "on_failure": [
-    {
-      "set": {
-        "field": "error.message",
-        "value": "{{ _ingest.on_failure_message }}"
-      }
-    }
-  ],
   "processors": [
     {
       "append": {
@@ -21,6 +13,14 @@
       "pipeline": {
         "description": "Run logs common default pipeline.",
         "name": "logs-common@default-pipeline"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
       }
     }
   ]

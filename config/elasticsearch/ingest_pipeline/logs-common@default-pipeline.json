@@ -1,13 +1,5 @@
 {
   "description": "Default ingest pipeline for all logs.",
-  "on_failure": [
-    {
-      "set": {
-        "field": "error.message",
-        "value": "{{ _ingest.on_failure_message }}"
-      }
-    }
-  ],
   "processors": [
     {
       "append": {
@@ -43,6 +35,14 @@
         "field": "event.ingested",
         "if": "ctx.event?.ingested == null",
         "value": "{{_ingest.timestamp}}"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
       }
     }
   ]

@@ -46,7 +46,6 @@ entities_v1_index_template
 ilm-history-7
 logs-apm.app@template
 logs-apm.error@template
-logs-k3s
 logs
 metrics-apm.app@template
 metrics-apm.internal@template

@@ -23,7 +23,7 @@ def deploy():
             "elasticsearch_settings_yaml_file_path": os.path.join(os.getcwd(), "config", "ec", "elasticsearch.yml"),
             "kibana_settings_yaml_file_path": os.path.join(os.getcwd(), "config", "ec", "kibana.yml"),
         },
-        var_file=os.path.join(os.getcwd(), "config", "ec", "main.tfvars"),
+        var_file=os.path.join(os.getcwd(), "config", "main.tfvars"),
     )
 
 

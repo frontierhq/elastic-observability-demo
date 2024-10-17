@@ -1,0 +1,31 @@
+resource "elasticstack_elasticsearch_cluster_settings" "main" {
+  {% if elasticsearch.cluster_settings.persistent %}
+  persistent {
+    {% for k, v in elasticsearch.cluster_settings.persistent.items() %}
+    setting {
+      name  = "{{ k }}"
+      {% if v is string %}
+      value = {{ v | tojson }}
+      {% else %}
+      value_list = {{ v | tojson }}
+      {% endif %}
+    }
+    {% endfor %}
+  }
+  {% endif %}
+
+  {% if elasticsearch.cluster_settings.transient %}
+  transient {
+    {% for k, v in elasticsearch.cluster_settings.transient.items() %}
+    setting {
+      name  = "{{ k }}"
+      {% if v is string %}
+      value = {{ v | tojson }}
+      {% else %}
+      value_list = {{ v | tojson }}
+      {% endif %}
+    }
+    {% endfor %}
+  }
+  {% endif %}
+}

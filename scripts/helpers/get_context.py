@@ -17,13 +17,9 @@ def get_context(config_dir: str,):
             "ingest_pipeline": {},
             "security_role_mapping": {},
         }
-        # "kibana": {
-        #     "data_view": {},
-        # },
     }
 
     elasticsearch_config_dir = Path(os.path.join(config_dir, "elasticsearch"))
-    # kibana_config_dir = os.path.join(config_dir, "kibana")
 
     if os.path.exists(os.path.join(elasticsearch_config_dir, "cluster_settings.json")):
         with open(os.path.join(elasticsearch_config_dir, "cluster_settings.json")) as file:
@@ -79,13 +75,6 @@ def get_context(config_dir: str,):
                 data = json.load(file)
                 context["elasticsearch"]["security_role_mapping"][Path(
                     filename).stem] = data
-
-    # for (dirpath, _, filenames) in os.walk(os.path.join(kibana_config_dir, "data_view")):
-    #     for filename in filenames:
-    #         with open(os.path.join(dirpath, filename)) as file:
-    #             data = json.load(file)
-    #             context["kibana"]["data_view"][Path(
-    #                 filename).stem] = data
 
     return context
 

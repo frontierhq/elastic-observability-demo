@@ -25,7 +25,7 @@ def preprocess_terraform_resources(
         if file.endswith(".j2"):
             template = env.get_template(file)
             with open(os.path.join(working_dir, template.name.replace(".j2", "")), "w") as f:
-                f.write(template.render(context))
+                f.write(template.render(context).replace('%{', '%%{'))
 
     terraform = Terraform(working_dir)
 

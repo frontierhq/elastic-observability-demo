@@ -1,11 +1,11 @@
 {
-  "description": "Default ingest pipeline for k3s logs.",
+  "description": "Default ingest pipeline for rancher background logs.",
   "processors": [
     {
       "append": {
         "field": "tags",
         "value": [
-          "frontier-logs-k3s@default"
+          "frontier-logs-rancher.background@default"
         ]
       }
     }

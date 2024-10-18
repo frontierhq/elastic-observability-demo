@@ -33,7 +33,7 @@
     {
       "reroute": {
         "dataset": "{{event.dataset}}",
-        "if": "['k3s', 'network'].contains(ctx.event?.dataset)"
+        "if": "['rancher'].contains(ctx.event?.dataset)"
       }
     },
     {

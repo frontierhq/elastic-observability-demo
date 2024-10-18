@@ -1,40 +1,39 @@
 {
-  "description": "Default ingest pipeline for all logs.",
+  "description": "Default ingest pipeline for logs.",
   "processors": [
     {
       "append": {
         "field": "tags",
         "value": [
-          "logs-common@default-pipeline"
+          "frontier-logs@default"
         ]
       }
     },
     {
       "set": {
         "field": "ecs.version",
-        "if": "ctx.ecs?.version == null",
-        "value": "8.11.0"
+        "value": "8.11.0",
+        "if": "ctx.ecs?.version == null"
       }
     },
     {
       "set": {
-        "copy_from": "message",
         "field": "event.original",
+        "copy_from": "message",
         "if": "ctx.event?.original == null"
       }
     },
     {
       "set": {
-        "copy_from": "event.dataset",
-        "field": "data_stream.dataset",
-        "if": "ctx.data_stream?.dataset == null"
+        "field": "event.ingested",
+        "value": "{{_ingest.timestamp}}",
+        "if": "ctx.event?.ingested == null"
       }
     },
     {
-      "set": {
-        "field": "event.ingested",
-        "if": "ctx.event?.ingested == null",
-        "value": "{{_ingest.timestamp}}"
+      "reroute": {
+        "dataset": "{{event.dataset}}",
+        "if": "['k3s', 'network'].contains(ctx.event?.dataset)"
       }
     }
   ],

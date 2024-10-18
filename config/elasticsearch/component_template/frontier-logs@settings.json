@@ -1,0 +1,13 @@
+{
+  "template": {
+    "settings": {
+      "index": {
+        "codec": "best_compression",
+        "lifecycle": {
+          "name": "frontier-logs"
+        },
+        "default_pipeline": "frontier-logs@default"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "index_patterns": [
+    "logs-k3s-*"
+  ],
+  "composed_of": [
+    "frontier-logs-k3s@mappings",
+    "frontier-logs-k3s@settings",
+    "ecs-base@8.11.0",
+    "ecs-data_stream@8.11.0",
+    "ecs-ecs@8.11.0",
+    "ecs@mappings"
+  ],
+  "priority": 300,
+  "data_stream": {
+    "hidden": false,
+    "allow_custom_routing": false
+  }
+}

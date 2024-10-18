@@ -5,14 +5,8 @@
       "append": {
         "field": "tags",
         "value": [
-          "logs-k3s@default-pipeline"
+          "frontier-logs-k3s@default"
         ]
-      }
-    },
-    {
-      "pipeline": {
-        "description": "Run logs common default pipeline.",
-        "name": "logs-common@default-pipeline"
       }
     }
   ],

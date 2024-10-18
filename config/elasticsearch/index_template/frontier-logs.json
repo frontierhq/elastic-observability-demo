@@ -3,11 +3,9 @@
     "logs-*-*"
   ],
   "composed_of": [
-    "frontier-logs@mappings",
-    "frontier-logs@settings",
-    "ecs-base@8.11.0",
-    "ecs-data_stream@8.11.0",
-    "ecs-ecs@8.11.0",
+    "frontier-ecs-base@8.11.0",
+    "frontier-ecs-data_stream@8.11.0",
+    "frontier-ecs-ecs@8.11.0",
     "ecs@mappings"
   ],
   "priority": 200,

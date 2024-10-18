@@ -35,6 +35,9 @@
         "dataset": "{{event.dataset}}",
         "if": "['k3s', 'network'].contains(ctx.event?.dataset)"
       }
+    },
+    {
+      "reroute": {}
     }
   ],
   "on_failure": [

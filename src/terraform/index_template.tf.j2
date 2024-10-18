@@ -24,7 +24,11 @@ resource "elasticstack_elasticsearch_index_template" "{{ k | normalise_resource_
   {% if v.template %}
   template {
     {% for k, v in v.template.items() %}
+    {% if k == "mappings" or k == "settings" %}
+    {{ k }} = jsonencode({{ v | tojson }})
+    {% else %}
     {{ k }} = {{ v | tojson }}
+    {% endif %}
     {% endfor %}
   }
   {% endif %}

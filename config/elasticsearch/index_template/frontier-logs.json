@@ -14,5 +14,19 @@
   "data_stream": {
     "hidden": false,
     "allow_custom_routing": false
+  },
+  "template": {
+    "mappings": {
+      "date_detection": false
+    },
+    "settings": {
+      "index": {
+        "codec": "best_compression",
+        "lifecycle": {
+          "name": "frontier-logs"
+        },
+        "default_pipeline": "frontier-logs@default"
+      }
+    }
   }
 }

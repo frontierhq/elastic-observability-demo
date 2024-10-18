@@ -3,8 +3,6 @@
     "logs-k3s-*"
   ],
   "composed_of": [
-    "frontier-logs-k3s@mappings",
-    "frontier-logs-k3s@settings",
     "ecs-base@8.11.0",
     "ecs-data_stream@8.11.0",
     "ecs-ecs@8.11.0",
@@ -14,5 +12,84 @@
   "data_stream": {
     "hidden": false,
     "allow_custom_routing": false
+  },
+  "template": {
+    "mappings": {
+      "date_detection": false,
+      "dynamic_templates": [
+        {
+          "container.labels": {
+            "path_match": "container.labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        },
+        {
+          "docker.attrs": {
+            "path_match": "docker.attrs.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        },
+        {
+          "docker.container.labels": {
+            "path_match": "docker.container.labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        },
+        {
+          "kubernetes.annotations.*": {
+            "path_match": "kubernetes.annotations.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "*"
+          }
+        },
+        {
+          "kubernetes.labels.*": {
+            "path_match": "kubernetes.labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "*"
+          }
+        },
+        {
+          "kubernetes.selectors.*": {
+            "path_match": "kubernetes.selectors.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "*"
+          }
+        },
+        {
+          "labels": {
+            "path_match": "labels.*",
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        }
+      ]
+    },
+    "settings": {
+      "index": {
+        "codec": "best_compression",
+        "lifecycle": {
+          "name": "frontier-logs"
+        },
+        "default_pipeline": "frontier-logs-k3s@default"
+      }
+    }
   }
 }

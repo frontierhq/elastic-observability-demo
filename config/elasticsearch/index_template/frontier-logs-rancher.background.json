@@ -23,7 +23,8 @@
         "lifecycle": {
           "name": "frontier-logs"
         },
-        "default_pipeline": "frontier-logs-rancher.background@default"
+        "default_pipeline": "frontier-logs-rancher.background@default",
+        "final_pipeline": "frontier-logs@final"
       }
     }
   }

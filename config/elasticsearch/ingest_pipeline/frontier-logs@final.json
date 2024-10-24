@@ -1,0 +1,26 @@
+{
+  "description": "Final ingest pipeline for logs.",
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": [
+          "frontier-logs@final"
+        ]
+      }
+    },
+    {
+      "remove": {
+        "field": "temp"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}

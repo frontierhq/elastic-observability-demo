@@ -24,11 +24,6 @@
       }
     },
     {
-      "remove": {
-        "field": "temp.event.dataset"
-      }
-    },
-    {
       "reroute": {
         "dataset": "{{event.dataset}}",
         "if": "['rancher.background', 'rancher.k3s', 'rancher.lima'].contains(ctx.event?.dataset)"

@@ -7,7 +7,7 @@
     "all": [
       {
         "field": {
-          "realm.name": "saml1"
+          "realm.name": "saml*"
         }
       }
     ]

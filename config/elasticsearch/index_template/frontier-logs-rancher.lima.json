@@ -8,7 +8,7 @@
     "frontier-ecs-ecs@8.11.0",
     "ecs@mappings"
   ],
-  "priority": 300,
+  "priority": 400,
   "data_stream": {
     "hidden": false,
     "allow_custom_routing": false

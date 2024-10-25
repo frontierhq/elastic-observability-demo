@@ -11,7 +11,8 @@
     },
     {
       "remove": {
-        "field": "temp"
+        "field": "temp",
+        "ignore_failure": true
       }
     }
   ],

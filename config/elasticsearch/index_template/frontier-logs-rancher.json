@@ -1,6 +1,6 @@
 {
   "index_patterns": [
-    "logs-rancher-*"
+    "logs-rancher*-*"
   ],
   "composed_of": [
     "frontier-ecs-base@8.11.0",

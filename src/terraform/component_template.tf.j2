@@ -1,0 +1,39 @@
+{% for k, v in elasticsearch.component_template.items() %}
+resource "elasticstack_elasticsearch_component_template" "{{ k | normalise_resource_name }}" {
+  name = "{{ k }}"
+
+  {% if v.version %}
+  version = {{ v.version | tojson }}
+  {% endif %}
+  {% if v.template %}
+  template {
+    {% if v.template.alias %}
+    alias {
+      {% for k, v in v.template.alias.items() %}
+      {{ k }} = {{ v | tojson }}
+      {% endfor %}
+    }
+    {% endif %}
+    {% if v.template.mappings %}
+    mappings = jsonencode({{ v.template.mappings | tojson }})
+    {% endif %}
+    {% if v.template.settings %}
+    settings = jsonencode({{ v.template.settings | tojson }})
+    {% endif %}
+  }
+  {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
+  {% endif %}
+
+  depends_on = [
+  {% for k, v in elasticsearch.ingest_pipeline.items() %}
+    elasticstack_elasticsearch_ingest_pipeline.{{ k | normalise_resource_name }},
+  {% endfor %}
+  {% for k, v in elasticsearch.index_lifecycle.items() %}
+    elasticstack_elasticsearch_index_lifecycle.{{ k | normalise_resource_name }},
+  {% endfor %}
+  ]
+}
+{% endfor %}

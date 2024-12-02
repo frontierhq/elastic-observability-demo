@@ -1,0 +1,41 @@
+{
+  "description": "Default ingest pipeline for rancher logs.",
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": [
+          "frontier-logs-rancher@default"
+        ]
+      }
+    },
+    {
+      "grok": {
+        "field": "log.file.path",
+        "patterns": [
+          "%{GREEDYDATA}/%{WORD:temp.event.dataset}.log"
+        ]
+      }
+    },
+    {
+      "set": {
+        "field": "event.dataset",
+        "value": "rancher.{{temp.event.dataset}}"
+      }
+    },
+    {
+      "reroute": {
+        "dataset": "{{event.dataset}}",
+        "if": "['rancher.background', 'rancher.k3s', 'rancher.lima'].contains(ctx.event?.dataset)"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}

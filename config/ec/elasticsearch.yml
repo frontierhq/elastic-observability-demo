@@ -1,0 +1,19 @@
+xpack.security.authc.realms.saml:
+  saml1:
+    order: 2
+    attributes.principal: nameid
+    attributes.groups: "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups"
+    idp.metadata.path: "https://login.microsoftonline.com/3504e4b3-86da-4741-8f28-f6c113ff884d/federationmetadata/2007-06/federationmetadata.xml?appid=5d372d7f-c28d-49c5-9521-112ace78bca0"
+    idp.entity_id: "https://sts.windows.net/3504e4b3-86da-4741-8f28-f6c113ff884d/"
+    sp.entity_id: "https://observability-demo.kb.eu-west-2.aws.cloud.es.io/"
+    sp.acs: "https://observability-demo.kb.eu-west-2.aws.cloud.es.io/api/security/saml/callback"
+    sp.logout: "https://observability-demo.kb.eu-west-2.aws.cloud.es.io/logout"
+  saml2:
+    order: 3
+    attributes.principal: nameid
+    attributes.groups: "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups"
+    idp.metadata.path: "https://login.microsoftonline.com/3504e4b3-86da-4741-8f28-f6c113ff884d/federationmetadata/2007-06/federationmetadata.xml?appid=5d372d7f-c28d-49c5-9521-112ace78bca0"
+    idp.entity_id: "https://sts.windows.net/3504e4b3-86da-4741-8f28-f6c113ff884d/"
+    sp.entity_id: "http://localhost:3000/"
+    sp.acs: "http://localhost:3000/saml/callback"
+    sp.logout: "http://localhost:3000/logout"

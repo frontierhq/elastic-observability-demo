@@ -1,0 +1,21 @@
+{
+  "description": "Default ingest pipeline for rancher k3s logs.",
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": [
+          "frontier-logs-rancher.k3s@default"
+        ]
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}

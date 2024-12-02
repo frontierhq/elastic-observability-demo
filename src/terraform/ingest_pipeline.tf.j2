@@ -1,0 +1,35 @@
+{% for k, v in elasticsearch.ingest_pipeline.items() %}
+resource "elasticstack_elasticsearch_ingest_pipeline" "{{ k | normalise_resource_name }}" {
+  name = "{{ k }}"
+
+  {% if v.description %}
+  description = {{ v.description | tojson }}
+  {% endif %}
+  {% if v.processors %}
+  processors = [
+    {% for v in v.processors %}
+    <<EOF
+    {{ v | tojson }}
+    EOF
+    {% if not loop.last %}
+    ,
+    {% endif %}
+    {% endfor %}
+  ]
+  {% endif %}
+  {% if v.on_failure %}
+  on_failure = [
+    {% for v in v.on_failure %}
+    <<EOF
+    {{ v | tojson }}
+    EOF
+    {% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+  {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
+  {% endif %}
+}
+{% endfor %}

@@ -1,0 +1,18 @@
+{% for k, v in elasticsearch.security_role_mapping.items() %}
+resource "elasticstack_elasticsearch_security_role_mapping" "{{ k | normalise_resource_name }}" {
+  name = "{{ k }}"
+
+  {% if v.enabled %}
+  enabled = {{ v.enabled | tojson }}
+  {% endif %}
+  {% if v.metadata %}
+  metadata = {{ v.metadata | tojson }}
+  {% endif %}
+  {% if v.roles %}
+  roles = {{ v.roles | tojson }}
+  {% endif %}
+  {% if v.rules %}
+  rules = jsonencode({{ v.rules | tojson }})
+  {% endif %}
+}
+{% endfor %}

@@ -1,0 +1,46 @@
+{% for k, v in elasticsearch.index_template.items() %}
+resource "elasticstack_elasticsearch_index_template" "{{ k | normalise_resource_name }}" {
+  name = "{{ k }}"
+
+  {% if v.composed_of %}
+  composed_of = {{ v.composed_of | tojson }}
+  {% endif %}
+  {% if v.index_patterns %}
+  index_patterns = {{ v.index_patterns | tojson }}
+  {% endif %}
+  {% if v.priority %}
+  priority = {{ v.priority | tojson }}
+  {% endif %}
+  {% if v.version %}
+  version = {{ v.version | tojson }}
+  {% endif %}
+  {% if v.data_stream %}
+  data_stream {
+    {% for k, v in v.data_stream.items() %}
+    {{ k }} = {{ v | tojson }}
+    {% endfor %}
+  }
+  {% endif %}
+  {% if v.template %}
+  template {
+    {% for k, v in v.template.items() %}
+    {% if k == "mappings" or k == "settings" %}
+    {{ k }} = jsonencode({{ v | tojson }})
+    {% else %}
+    {{ k }} = {{ v | tojson }}
+    {% endif %}
+    {% endfor %}
+  }
+  {% endif %}
+
+  {% if v._meta %}
+  metadata = jsonencode({{ v._meta | tojson }})
+  {% endif %}
+
+  depends_on = [
+  {% for k, v in elasticsearch.component_template.items() %}
+    elasticstack_elasticsearch_component_template.{{ k | normalise_resource_name }},
+  {% endfor %}
+  ]
+}
+{% endfor %}

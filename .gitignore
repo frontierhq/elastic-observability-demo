@@ -1,0 +1,19 @@
+# ide
+*.env
+.vscode
+
+# python
+.venv
+__pycache__
+
+# terraform
+.terraform
+cluster_settings.tf
+component_template.tf
+index_lifecycle.tf
+index_template.tf
+ingest_pipeline.tf
+locals.*.tf
+security_role_mapping.tf
+
+# other

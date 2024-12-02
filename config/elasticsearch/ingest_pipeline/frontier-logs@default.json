@@ -1,0 +1,51 @@
+{
+  "description": "Default ingest pipeline for logs.",
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": [
+          "frontier-logs@default"
+        ]
+      }
+    },
+    {
+      "set": {
+        "field": "ecs.version",
+        "value": "8.11.0",
+        "if": "ctx.ecs?.version == null"
+      }
+    },
+    {
+      "set": {
+        "field": "event.original",
+        "copy_from": "message",
+        "if": "ctx.event?.original == null"
+      }
+    },
+    {
+      "set": {
+        "field": "event.ingested",
+        "value": "{{_ingest.timestamp}}",
+        "if": "ctx.event?.ingested == null"
+      }
+    },
+    {
+      "reroute": {
+        "dataset": "{{event.dataset}}",
+        "if": "['rancher'].contains(ctx.event?.dataset)"
+      }
+    },
+    {
+      "reroute": {}
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}

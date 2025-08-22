@@ -9,8 +9,8 @@ def normalise_resource_name(value):
 
 
 def preprocess_terraform_resources(
-        working_dir: str,
-        context: dict = {},
+    working_dir: str,
+    context: dict = {},
 ):
     print(f"preprocessing terraform resources in '{working_dir}'")
     env = Environment(
@@ -24,8 +24,10 @@ def preprocess_terraform_resources(
     for file in os.listdir(working_dir):
         if file.endswith(".j2"):
             template = env.get_template(file)
-            with open(os.path.join(working_dir, template.name.replace(".j2", "")), "w") as f:
-                f.write(template.render(context).replace('%{', '%%{'))
+            with open(
+                os.path.join(working_dir, template.name.replace(".j2", "")), "w"
+            ) as f:
+                f.write(template.render(context).replace("%{", "%%{"))
 
     terraform = Terraform(working_dir)
 

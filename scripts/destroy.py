@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from helpers.destroy_terraform import destroy_terraform
 from helpers.get_context import get_context
 from helpers.init_terraform import init_terraform
@@ -6,6 +7,8 @@ from helpers.preprocess_terraform_resources import preprocess_terraform_resource
 
 
 def destroy():
+    load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))
+
     terraform_dir = os.path.join(os.getcwd(), "src", "terraform")
 
     context = get_context(os.path.join(os.getcwd(), "config"))
@@ -20,8 +23,12 @@ def destroy():
     destroy_terraform(
         terraform=terraform,
         var={
-            "elasticsearch_settings_yaml_file_path": os.path.join(os.getcwd(), "config", "ec", "elasticsearch.yml"),
-            "kibana_settings_yaml_file_path": os.path.join(os.getcwd(), "config", "ec", "kibana.yml"),
+            "elasticsearch_settings_yaml_file_path": os.path.join(
+                os.getcwd(), "config", "ec", "elasticsearch.yml"
+            ),
+            "kibana_settings_yaml_file_path": os.path.join(
+                os.getcwd(), "config", "ec", "kibana.yml"
+            ),
         },
         var_file=os.path.join(os.getcwd(), "config", "main.tfvars"),
     )

@@ -29,7 +29,7 @@
         "min_age": "6h",
         "actions": {
           "searchable_snapshot": {
-            "snapshot_repository": "found-snapshots",
+            "snapshot_repository": "frontier-azure",
             "force_merge_index": true
           },
           "allocate": {
@@ -48,7 +48,7 @@
         "min_age": "12h",
         "actions": {
           "searchable_snapshot": {
-            "snapshot_repository": "found-snapshots",
+            "snapshot_repository": "frontier-azure",
             "force_merge_index": true
           }
         }

@@ -8,12 +8,13 @@ __pycache__
 
 # terraform
 .terraform
+*.tfstate*
 cluster_settings.tf
 component_template.tf
 index_lifecycle.tf
 index_template.tf
 ingest_pipeline.tf
-locals.*.tf
 security_role_mapping.tf
+snapshot_repository.tf
 
 # other

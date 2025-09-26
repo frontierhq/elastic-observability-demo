@@ -1,0 +1,11 @@
+{% for k, v in elasticsearch.snapshot_repository.items() %}
+resource "elasticstack_elasticsearch_snapshot_repository" "{{ k | normalise_resource_name }}" {
+  name = "{{ k }}"
+
+  {{ v.type }} {
+    {% for k, v in v.settings.items() %}
+    {{ k }} = {{ v | tojson }}
+    {% endfor %}
+  }
+}
+{% endfor %}

@@ -1,3 +1,4 @@
+---
 xpack.security.authc.realms.saml:
   saml1:
     order: 2

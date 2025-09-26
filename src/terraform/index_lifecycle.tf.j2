@@ -247,5 +247,11 @@ resource "elasticstack_elasticsearch_index_lifecycle" "{{ k | normalise_resource
   {% if v._meta %}
   metadata = jsonencode({{ v._meta | tojson }})
   {% endif %}
+
+  depends_on = [
+  {% for k, v in elasticsearch.snapshot_repository.items() %}
+    elasticstack_elasticsearch_snapshot_repository.{{ k | normalise_resource_name }},
+  {% endfor %}
+  ]
 }
 {% endfor %}

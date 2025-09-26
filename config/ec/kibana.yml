@@ -1,3 +1,4 @@
+---
 xpack.security.authc.providers.saml:
   saml1:
     order: 2

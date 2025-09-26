@@ -1,5 +1,6 @@
 import json
 import os
+from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, NotFoundError
 from helpers.init_terraform import init_terraform
 from pathlib import Path
@@ -20,7 +21,7 @@ def connect():
         basic_auth=(
             output["elasticsearch_username"]["value"],
             output["elasticsearch_password"]["value"],
-        )
+        ),
     )
 
 
@@ -29,22 +30,26 @@ def delete_keys(obj: dict, keys: list):
         del obj[key]
 
 
-def pull_type_1(fetch: Callable, config_root_dir: str, type: str, process: Callable = None):
+def pull_type_1(
+    fetch: Callable, config_root_dir: str, type: str, process: Callable = None
+):
     try:
         result = fetch()
     except NotFoundError:
         result = {f"{type}s": []}
 
-    config_dir = Path(os.path.join(
-        config_root_dir,
-        "elasticsearch",
-        type,
-    ))
+    config_dir = Path(
+        os.path.join(
+            config_root_dir,
+            "elasticsearch",
+            type,
+        )
+    )
 
     for v in result[f"{type}s"]:
         config_dir.mkdir(parents=True, exist_ok=True)
 
-        name = v['name']
+        name = v["name"]
         file_path = Path(os.path.join(config_dir, f"{name}.json"))
 
         existing = {}
@@ -64,17 +69,21 @@ def pull_type_1(fetch: Callable, config_root_dir: str, type: str, process: Calla
             print(f"Skipping {type}/{name}")
 
 
-def pull_type_2(fetch: Callable, config_root_dir: str, type: str, process: Callable = None):
+def pull_type_2(
+    fetch: Callable, config_root_dir: str, type: str, process: Callable = None
+):
     try:
         result = fetch()
     except NotFoundError:
         result = {}
 
-    config_dir = Path(os.path.join(
-        config_root_dir,
-        "elasticsearch",
-        type,
-    ))
+    config_dir = Path(
+        os.path.join(
+            config_root_dir,
+            "elasticsearch",
+            type,
+        )
+    )
 
     for k in result:
         config_dir.mkdir(parents=True, exist_ok=True)
@@ -100,6 +109,8 @@ def pull_type_2(fetch: Callable, config_root_dir: str, type: str, process: Calla
 
 
 def pull_config():
+    load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))
+
     config_dir = os.path.join(os.getcwd(), "config")
 
     client = connect()
@@ -124,6 +135,11 @@ def pull_config():
         lambda: client.ingest.get_pipeline(filter_path=NAME_PATTERNS),
         config_dir,
         "ingest_pipeline",
+    )
+    pull_type_2(
+        lambda: client.snapshot.get_repository(filter_path=NAME_PATTERNS),
+        config_dir,
+        "snapshot_repository",
     )
     pull_type_2(
         lambda: client.security.get_role_mapping(name=NAME_PATTERNS),

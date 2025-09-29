@@ -1,7 +1,6 @@
 import os
-from helpers.format_terraform import format_terraform
 from jinja2 import Environment, FileSystemLoader
-from python_terraform import Terraform
+from py_utils import format_terraform, init_terraform
 
 
 def normalise_resource_name(value):
@@ -29,7 +28,7 @@ def preprocess_terraform_resources(
             ) as f:
                 f.write(template.render(context).replace("%{", "%%{"))
 
-    terraform = Terraform(working_dir)
+    terraform = init_terraform(working_dir)
 
     format_terraform(terraform)
 

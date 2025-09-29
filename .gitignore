@@ -15,6 +15,7 @@ index_lifecycle.tf
 index_template.tf
 ingest_pipeline.tf
 security_role_mapping.tf
+security_user.tf
 snapshot_repository.tf
 
 # other

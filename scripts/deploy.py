@@ -1,9 +1,8 @@
 import os
 from dotenv import load_dotenv
-from helpers.apply_terraform import apply_terraform
 from helpers.get_context import get_context
-from helpers.init_terraform import init_terraform
 from helpers.preprocess_terraform_resources import preprocess_terraform_resources
+from py_utils import apply_terraform, init_terraform
 
 
 def deploy():

@@ -64,7 +64,7 @@ requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "elasticsearch", specifier = ">=8.15.1,<9" },
     { name = "jinja2", specifier = ">=3.1.4" },
-    { name = "py-utils", editable = "../py-utils" },
+    { name = "py-utils", git = "https://github.com/frontierhq/py-utils.git?rev=0.2.1" },
     { name = "pyyaml", specifier = ">=6.0.1" },
 ]
 
@@ -226,23 +226,10 @@ wheels = [
 [[package]]
 name = "py-utils"
 version = "0.2.0"
-source = { editable = "../py-utils" }
+source = { git = "https://github.com/frontierhq/py-utils.git?rev=0.2.1#2a6ff9c720b56bf1ad80151b6969d7fc6d8b480c" }
 dependencies = [
     { name = "jinja2" },
     { name = "python-terraform" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "jinja2", specifier = ">=3.1.5" },
-    { name = "python-terraform", specifier = ">=0.10.1,<0.11.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pre-commit", specifier = ">=4.1.0" },
-    { name = "ruff", specifier = ">=0.9.7" },
-    { name = "yamllint", specifier = ">=1.35.1" },
 ]
 
 [[package]]

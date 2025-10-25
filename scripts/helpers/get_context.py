@@ -18,6 +18,7 @@ def get_context(
             "index_template": {},
             "ingest_pipeline": {},
             "security_role_mapping": {},
+            "security_user": {},
             "snapshot_repository": {},
         }
     }
@@ -93,6 +94,16 @@ def get_context(
                 context["elasticsearch"]["security_role_mapping"][
                     Path(filename).stem
                 ] = data
+
+    for dirpath, _, filenames in os.walk(
+        os.path.join(elasticsearch_config_dir, "security_user")
+    ):
+        for filename in filenames:
+            if not filename.endswith(".json"):
+                continue
+            with open(os.path.join(dirpath, filename)) as file:
+                data = json.load(file)
+                context["elasticsearch"]["security_user"][Path(filename).stem] = data
 
     for dirpath, _, filenames in os.walk(
         os.path.join(elasticsearch_config_dir, "snapshot_repository")

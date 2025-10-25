@@ -7,7 +7,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "elasticsearch>=8.15.1,<9",
     "jinja2>=3.1.4",
-    "python-terraform>=0.10.1",
+    "py-utils",
     "pyyaml>=6.0.1",
 ]
 
@@ -17,3 +17,6 @@ dev = [
     "ruff>=0.9.7",
     "yamllint>=1.35.1",
 ]
+
+[tool.uv.sources]
+py-utils = { git = "https://github.com/frontierhq/py-utils.git", rev = "0.2.1" }

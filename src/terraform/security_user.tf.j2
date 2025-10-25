@@ -1,0 +1,18 @@
+{% for k, v in elasticsearch.security_user.items() %}
+resource "elasticstack_elasticsearch_security_user" "{{ k | normalise_resource_name }}" {
+  password_hash = {{ v.password_hash | tojson }}
+  username = "{{ k }}"
+
+  {% if v.email %}
+  email = {{ v.email | tojson }}
+  {% endif %}
+
+  {% if v.full_name %}
+  full_name = {{ v.full_name | tojson }}
+  {% endif %}
+
+  {% if v.roles %}
+  roles = {{ v.roles | tojson }}
+  {% endif %}
+}
+{% endfor %}

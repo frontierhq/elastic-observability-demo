@@ -2,8 +2,8 @@ import json
 import os
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, NotFoundError
-from helpers.init_terraform import init_terraform
 from pathlib import Path
+from py_utils import init_terraform
 from typing import Callable
 
 

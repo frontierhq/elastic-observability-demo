@@ -1,0 +1,8 @@
+{
+  "email": "another@frontierhq.com",
+  "full_name": "A. N. Other",
+  "password_hash": "$2a$10$QWEDUMc8lmby3OzhT4IApu1RtfjZ8oLSAAFMgbq5r8f5V9gon9Ysy",
+  "roles": [
+    "kibana_user"
+  ]
+}

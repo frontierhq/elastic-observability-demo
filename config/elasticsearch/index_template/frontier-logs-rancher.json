@@ -3,9 +3,9 @@
     "logs-rancher*-*"
   ],
   "composed_of": [
-    "frontier-ecs-base@8.11.0",
-    "frontier-ecs-data_stream@8.11.0",
-    "frontier-ecs-ecs@8.11.0",
+    "frontier-ecs-base@9.2.0",
+    "frontier-ecs-data_stream@9.2.0",
+    "frontier-ecs-ecs@9.2.0",
     "ecs@mappings"
   ],
   "priority": 300,
